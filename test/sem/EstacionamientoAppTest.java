@@ -10,10 +10,7 @@ public class EstacionamientoAppTest {
 	
 	EstacionamientoApp estacionamiento;
 	
-	public LocalTime horaActual()
-	{
-		return LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute());
-	}
+	
 	
 	@BeforeEach
 	public void setUp()
@@ -33,7 +30,7 @@ public class EstacionamientoAppTest {
 	@Test
 	public void establecerHoraDeFinDeEstacionamientoTest() 
 	{
-		LocalTime tiempo = horaActual();
+		LocalTime tiempo = LocalTime.now();
 		estacionamiento.establecerHoraDeFinDeEstacionamiento();
 		assertEquals(tiempo, estacionamiento.getHoraDeFinalizacion());
 	}
@@ -41,22 +38,26 @@ public class EstacionamientoAppTest {
 	@Test
 	public void EstacionamientoVigenteTest()
 	{
+		
+		//Comprueba que el estacionamiento esta vigente
 		LocalTime horaFin = LocalTime.of(LocalTime.now().getHour() + 1, LocalTime.now().getMinute());
 		estacionamiento.setHorarioMaximo(horaFin);
 		
-		assertEquals(true, estacionamiento.estacionamientoVigente());
+		assertEquals(true, estacionamiento.estacionamientoVigente(LocalTime.now()));
 		
+		//Comprueba que el estacionamiento no esta vigente
 		horaFin = LocalTime.of(LocalTime.now().getHour() - 1, LocalTime.now().getMinute());
 		estacionamiento.setHorarioMaximo(horaFin);
 		
-		assertEquals(false, estacionamiento.estacionamientoVigente());
+		assertEquals(false, estacionamiento.estacionamientoVigente(LocalTime.now()));
 	}
 	
 	@Test
+	//Este test verifica la hora de estaciomiento podria fallar si justo cambia la hora cuando se ejecutan los metodos.
 	public void finalizarEstacionamientoTest()
 	{
 		estacionamiento.finalizarEstacionamiento();
-		LocalTime horaFin = horaActual();
+		LocalTime horaFin = LocalTime.now();
 		
 		assertEquals(horaFin, estacionamiento.getHoraDeFinalizacion());
 	}

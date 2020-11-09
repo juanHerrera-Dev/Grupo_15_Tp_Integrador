@@ -6,17 +6,27 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.*;
 
+
+
+
 public class EstacionamientoPorHorasTest {
 	
+
+
 	EstacionamientoPorHoras estacionamiento;
 	LocalTime tiempo;
+	
+	
 	
 	@BeforeEach
 	public void setUp()
 	{
+		String patente = "abc123";
+		int cantidadDeHorasCompradas = 1;
+		int IDPuntoDeVenta = 101;
 		
-		estacionamiento = new EstacionamientoPorHoras("abc123", 101, 2);
-		tiempo = LocalTime.of(LocalTime.now().getHour() + 2, LocalTime.now().getMinute());
+		estacionamiento = new EstacionamientoPorHoras(patente, IDPuntoDeVenta, cantidadDeHorasCompradas);
+		tiempo = LocalTime.now().plusHours(cantidadDeHorasCompradas);
 	}
 	
 	@Test
@@ -30,11 +40,12 @@ public class EstacionamientoPorHorasTest {
 	@Test
 	public void estacionamientoVigenteTest()
 	{
-		assertEquals(true, estacionamiento.estacionamientoVigente());
+		//Estacionamiento  vigente
+		assertEquals(true, estacionamiento.estacionamientoVigente(LocalTime.now()));
 		
-		estacionamiento = new EstacionamientoPorHoras("abc123", 101, -2);
-		
-		assertEquals(false, estacionamiento.estacionamientoVigente());
+		//Estacionamiento vencido
+		LocalTime hora = LocalTime.now().plusHours(1).plusMinutes(1);
+		assertEquals(false, estacionamiento.estacionamientoVigente(hora));
 		
 	}
 

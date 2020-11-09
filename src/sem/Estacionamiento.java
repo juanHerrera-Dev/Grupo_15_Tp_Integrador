@@ -19,7 +19,8 @@ public abstract class Estacionamiento {
 	
 	abstract public void establecerHoraDeFinDeEstacionamiento();
 	
-	abstract public boolean estacionamientoVigente();
+	abstract public boolean estacionamientoVigente(LocalTime horaActual);
+	
 	//PRIVATE
 	
 	
@@ -37,15 +38,10 @@ public abstract class Estacionamiento {
 		}
 	}
 	
-	protected LocalTime horaActual()
-	{
-		return LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute());
-	}
-	
 	
 	protected void setHoraDeInicio()
 	{
-		this.horaDeInicio = this.horaActual();
+		this.horaDeInicio = LocalTime.now();
 	}
 	
 	protected void setHoraDeFinalizacion(LocalTime unaHora)

@@ -28,14 +28,14 @@ public class EstacionamientoPorHoras extends Estacionamiento {
 	
 	@Override
 	public void establecerHoraDeFinDeEstacionamiento() {
-		this.setHoraDeFinalizacion(LocalTime.of(LocalTime.now().getHour() + this.getCantidadDeHoras(), LocalTime.now().getMinute()));
+		this.setHoraDeFinalizacion(LocalTime.now().plusHours(this.getCantidadDeHoras()));
 		
 	}
 
 	@Override
-	public boolean estacionamientoVigente() {
+	public boolean estacionamientoVigente(LocalTime horaActual) {
 		
-		boolean vigencia = this.getHoraDeFinalizacion().isAfter(this.horaActual());
+		boolean vigencia = this.getHoraDeFinalizacion().isAfter(horaActual);
 		
 		return vigencia;
 	}

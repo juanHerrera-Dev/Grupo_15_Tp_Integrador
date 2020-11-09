@@ -34,20 +34,22 @@ public class EstacionamientoApp extends Estacionamiento {
 	@Override
 	public void establecerHoraDeFinDeEstacionamiento()
 	{
-		this.setHoraDeFinalizacion(this.horaActual());
+		this.setHoraDeFinalizacion(LocalTime.now());
 	}
 
 
 	@Override
-	public boolean estacionamientoVigente() {
+	public boolean estacionamientoVigente(LocalTime horaActual) {
 		
-		return horarioMaximo.isAfter(this.horaActual());
+		return horarioMaximo.isAfter(horaActual);
 	}
+	
+	
 	
 	
 	public void finalizarEstacionamiento()
 	{
-		this.setHorarioMaximo(this.horaActual());
+		this.setHorarioMaximo(LocalTime.now());
 		this.establecerHoraDeFinDeEstacionamiento();
 	}
 	

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+import estacionamiento.Estacionamiento;
 
 import static org.mockito.Mockito.*;
 
@@ -65,7 +65,7 @@ class TestCasePuntoDeVenta {
 		puntoDeVentaX.venderHoras("sau 703",LocalTime.of(5,0));
 		
 		assertEquals(1,puntoDeVentaX.getVentas().size());
-		verify(iSemEstacionamiento).guardarEstacionamiento();
+		verify(iSemEstacionamiento).guardarEstacionamiento(any(Estacionamiento.class));
 	}
 	@Test
 	void testCuandoUnPuntoDeVentaVendeUnaRecargaGeneraUnaRecargaDelCreditoDelUsuarioYUnaVenta(){

@@ -1,7 +1,10 @@
 package ventas;
 
+import estacionamiento.Estacionamiento;
+
+
 public interface ISemEstacionamiento {
 
-	public void guardarEstacionamiento();
+	public void guardarEstacionamiento(Estacionamiento estacionamientoPorHoras);
 
 }

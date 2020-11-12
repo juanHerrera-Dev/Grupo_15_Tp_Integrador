@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import estacionamiento.EstacionamientoPorHoras;
+
 
 
 public class PuntoDeVenta {
@@ -71,8 +73,8 @@ public class PuntoDeVenta {
 		
 		this.ventas.add(new	VentaPuntual(generarNmrControl(), this.id, LocalDate.now(), LocalTime.now(), cantHoras));
 		
-		//this.iSemEstacionamiento.guardarEstacionamiento(new EstacionamientoPorHoras(patente,this.id_zona, cantHoras));
-		this.iSemEstacionamiento.guardarEstacionamiento();
+		this.iSemEstacionamiento.guardarEstacionamiento(new EstacionamientoPorHoras(patente,this.id_zona, cantHoras));
+		//this.iSemEstacionamiento.guardarEstacionamiento();
 	}
 
 	private int generarNmrControl() {

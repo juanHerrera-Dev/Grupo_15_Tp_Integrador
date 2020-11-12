@@ -1,10 +1,12 @@
-package sem;
+package estacionamiento;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.*;
+
+import estacionamiento.EstacionamientoPorHoras;
 
 
 

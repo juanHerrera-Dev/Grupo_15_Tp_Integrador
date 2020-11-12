@@ -1,4 +1,4 @@
-package sem;
+package estacionamiento;
 
 import java.time.LocalTime;
 
@@ -35,8 +35,14 @@ public class EstacionamientoPorHoras extends Estacionamiento {
 	@Override
 	public boolean estacionamientoVigente(LocalTime horaActual) {
 		
-		boolean vigencia = this.getHoraDeFinalizacion().isAfter(horaActual);
+		boolean vigencia = this.getHoraDeFinalizacion().isBefore(horaActual);
 		
 		return vigencia;
+	}
+
+	@Override
+	public void finalizarEstacionamiento() {
+		// TODO Auto-generated method stub
+		
 	}
 }

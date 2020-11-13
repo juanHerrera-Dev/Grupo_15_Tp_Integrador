@@ -8,6 +8,7 @@ import estacionamiento.Estacionamiento;
 import estacionamiento.EstacionamientoApp;
 import estacionamiento.EstacionamientoPorHoras;
 import estacionamiento.SEM_Estacionamiento;
+import usuarios.Usuario;
 
 import java.time.LocalTime;
 
@@ -75,6 +76,11 @@ public class SEM_EstacionamientoTest {
 		when(est2.getPatente()).thenReturn("abc002");
 		when(est3.getPatente()).thenReturn("abc003");
 		when(est4.getPatente()).thenReturn("abc004");
+		
+		semEst.guardarEstacionamiento(est1);
+		semEst.guardarEstacionamiento(est2);
+		semEst.guardarEstacionamiento(est3);
+		semEst.guardarEstacionamiento(est4);
 		
 		semEst.consultarEstacionamiento("abc004", time);
 		

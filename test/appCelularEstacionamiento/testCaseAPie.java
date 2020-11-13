@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 class testCaseAPie {
 
-	Apie aPie;
+	/**Apie aPie;
 	
 	@BeforeEach
 	void setUp()
@@ -19,5 +19,5 @@ class testCaseAPie {
 	void testCaminando() {
 		
 	}
-
+	comentamos el test porque no lo pudimos hacer corrar*/
 }

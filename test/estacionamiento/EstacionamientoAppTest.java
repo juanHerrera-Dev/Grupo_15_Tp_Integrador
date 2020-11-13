@@ -1,6 +1,6 @@
 package estacionamiento;
 
-import static org.junit.Assert.assertFalse;
+
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import estacionamiento.EstacionamientoApp;
+
 
 import java.time.LocalTime;
 
@@ -82,7 +82,21 @@ public class EstacionamientoAppTest {
 	@Test
 	public void patenteTest()
 	{
-		assertEquals("abc123", estacionamiento.getPatente());
+		
+		
+		
+		 LocalTime horaActual = LocalTime.of(12,00);
+			
+			try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+				localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+				
+				estacionamiento = new EstacionamientoApp("aBc123", 100, 1566770101, 60);
+				
+				assertEquals("abc123", estacionamiento.getPatente());
+
+				
+				
+			} 
 	}
 	
 	@Test
@@ -179,7 +193,7 @@ public class EstacionamientoAppTest {
 			
 			try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
 				localTimeMock.when(LocalTime::now).thenReturn(horaActual);
-				
+				estacionamiento = new EstacionamientoApp("aBc123", 100, 1566770101, 60);
 				
 				assertEquals(horaActual, estacionamiento.getHoraDeInicio());
 
@@ -199,7 +213,7 @@ public class EstacionamientoAppTest {
 				localTimeMock.when(LocalTime::now).thenReturn(horaActual);
 				
 			
-				
+				estacionamiento = new EstacionamientoApp("aBc123", 100, 1566770101, 60);
 				
 				estacionamiento.actualizarHorarioMaximo(60);
 				

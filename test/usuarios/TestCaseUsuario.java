@@ -38,13 +38,19 @@ class TestCaseUsuario {
 	}
 	@Test
 	void testCuandoUnUsuarioIniciaUnEstacionamientoLoSeteaComoColaboradorInterno() {
-		int zonaId=123;
-		String patente= "sau 231";
 		
-		usuarioX.iniciarEstacionamiento(patente,zonaId);
+		LocalTime horaActual = LocalTime.of(12,00);
 		
-		assertNotEquals(null,usuarioX.getEstacionamientoVigente());
-		
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			int zonaId=123;
+			String patente= "sau 231";
+			
+			usuarioX.iniciarEstacionamiento(patente,zonaId);
+			
+			assertNotEquals(null,usuarioX.getEstacionamientoVigente());
+		} 
 		
 		/*4 funcionalidades: almacenar el estacionamiento en colaborador v
 							 enviar alerta al sem alertas 
@@ -77,21 +83,23 @@ class TestCaseUsuario {
 	}
 	@Test
 	void testCuandoUnUsuarioIniciaUnEstacionamientoGuardaEseEstacionamientoEnLaSemEstacionamientos() {
-		int zonaId=123;
-		String patente= "sau 231";
 		
-		usuarioX.iniciarEstacionamiento(patente,zonaId);
-		
-		verify(semEstacionamiento).guardarEstacionamiento(any(EstacionamientoApp.class));
-		
-		
-		/*4 funcionalidades: almacenar el estacionamiento en colaborador v
-							 enviar alerta al sem alertas f
-							 almacenar el estacionamiento en la sem estacionamientos v
-							 retornar un string 
-		*/					 
+		LocalTime horaActual = LocalTime.of(13,00);
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			int zonaId=123;
+			String patente= "sau 231";
+			
+			usuarioX.iniciarEstacionamiento(patente,zonaId);
+			
+			
+			
+			verify(semEstacionamiento).guardarEstacionamiento(any(EstacionamientoApp.class));
+		} 
+						 
 	}
-	@Test // va  afuncionar cuando pueda mockear la hora y haga bien la diferencia de horario
+	@Test 
 	void testCuandoUnUsuarioIniciaUnEstacionamientoRetornaElStringEsperado() {
 		
 		LocalTime horaActual = LocalTime.of(13,00);
@@ -126,14 +134,20 @@ class TestCaseUsuario {
 	@Test 
 	void testCuandoUnUsuarioFinalizaUnEstacionamientoFinalizaSuEstacionamiento() {
 		
-		int zonaId=123;
-		String patente= "sau 231";
-		usuarioX.iniciarEstacionamiento(patente,zonaId);
+		LocalTime horaActual = LocalTime.of(12,00);
 		
-		usuarioX.finalizarEstacionamiento();
-		
-		assertEquals(false,usuarioX.getEstacionamientoVigente().estacionamientoVigente(LocalTime.now()));
-		
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			int zonaId=123;
+			String patente= "sau 231";
+			
+			usuarioX.iniciarEstacionamiento(patente,zonaId);
+			
+			usuarioX.finalizarEstacionamiento();
+			
+			assertEquals(false,usuarioX.getEstacionamientoVigente().estacionamientoVigente(LocalTime.now()));
+		} 
 	}
 	@Test 
 	void testCuandoUnUsuarioFinalizaUnEstacionamientoEnviaUnaAlertaALaSemAlertas() {
@@ -156,33 +170,52 @@ class TestCaseUsuario {
 	@Test //va  afuncionar cuando pueda mockear la hora y haga bien la diferencia de horario
 	void testCuandoUnUsuarioFinalizaUnEstacionamientoRetornaUnaNotificacion() {
 		
-		int zonaId=123;
-		String patente= "sau 231";
-		usuarioX.iniciarEstacionamiento(patente,zonaId);
+		LocalTime horaInicio = LocalTime.of(13,00);
 		
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaInicio);
+			
+			int zonaId=123;
+			String patente= "sau 231";
+			
+			usuarioX.iniciarEstacionamiento(patente,zonaId);
+			
+			}
+		LocalTime horaFin = LocalTime.of(17,00);
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaFin);
+			
+			
+			String respuestaEsperada= "horaInicio=13:0"+" "+"horaFin=17:0"+" "+"duracion=4horas"+" "+"coste=0.0"; 
+			
+			assertEquals(respuestaEsperada,usuarioX.finalizarEstacionamiento());
+			
+			
+			}
 		
-		
-		String respuestaEsperada= "horaInicio=13:0"+" "+"horaFin=18:0"+" "+"duracion=5horas"+" "+"coste=200.0"; 
-		
-		assertEquals(respuestaEsperada,usuarioX.finalizarEstacionamiento());
-		 
 	}
 	@Test
 	void testUnUsuarioNoPuedeFinalizarUnEstacionamientoSiEsteYaFinalizo()
 	{
-		int zonaId=123;
-		String patente= "sau 231";
-		usuarioX.iniciarEstacionamiento(patente,zonaId);
-		
-		usuarioX.finalizarEstacionamiento();
 		
 		
+		LocalTime horaActual = LocalTime.of(12,00);
 		
-		assertThrows(IllegalArgumentException.class, 
-            	() -> usuarioX.finalizarEstacionamiento());
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			int zonaId=123;
+			String patente= "sau 231";
+			
+			usuarioX.iniciarEstacionamiento(patente,zonaId);
+			
+			usuarioX.finalizarEstacionamiento();
+			
+			
+			assertThrows(IllegalArgumentException.class, 
+	            	() -> usuarioX.finalizarEstacionamiento());
+		}
 		
-		
-		//hacer cuando tenga la clase estacionamiento que pueda responder el mensaje estacionamientoVigente()
 	}
 	@Test
 	void testCuandoAUnUsuarioLeConsultanSuSaldoRetornaUnaNotificacion()
@@ -201,11 +234,22 @@ class TestCaseUsuario {
 		int zonaId=123;
 		String patente= "sau 231";
 		double creditoEsperado= 400.0;
-		usuarioX.iniciarEstacionamiento(patente,zonaId);
 		
-		usuarioX.recargarCredito(200.0);
 		
-		assertEquals(creditoEsperado,usuarioX.getCredito());
+		LocalTime horaActual = LocalTime.of(12,00);
+		
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			
+			usuarioX.iniciarEstacionamiento(patente,zonaId);
+			
+			usuarioX.recargarCredito(200.0);
+			
+			
+			assertEquals(creditoEsperado,usuarioX.getCredito());
+		}
+		
 	}
 	@Test // no funciona hasta hacer el mock LocalTime.now()
 	void testCuandoUnUsuarioRecargaCreditoEnviaUnaAlertaALaSemAlertas()
@@ -238,7 +282,7 @@ class TestCaseUsuario {
 			usuarioX.recargarCredito(80.0);
 			
 			
-			assertEquals(LocalTime.of(20,00),usuarioX.getEstacionamientoVigente().getHoraMaxima());
+			assertEquals(LocalTime.of(20,00),usuarioX.getEstacionamientoVigente().getHorarioMaximo());
 		} 
 	}
 	

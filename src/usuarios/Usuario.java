@@ -71,8 +71,8 @@ public class Usuario {
 
 	private String notificacionDeInicioDeEstacionamiento() {
 		
-		LocalTime horaInicio= this.estacionamientoReciente.getHoraInicio();
-		LocalTime horaMaxima= this.estacionamientoReciente.getHoraMaxima();
+		LocalTime horaInicio= this.estacionamientoReciente.getHoraDeInicio();
+		LocalTime horaMaxima= this.estacionamientoReciente.getHorarioMaximo();
 		
 		return "horaInicio="+horaInicio.getHour()+":"+horaInicio.getMinute()+" "+"horaMaxima="+horaMaxima.getHour()+":"+horaMaxima.getMinute();
 	}			
@@ -109,8 +109,8 @@ public class Usuario {
 
 	private String notificacionDeFinDeEstacionamiento() {
 		
-		LocalTime horaInicio= this.estacionamientoReciente.getHoraInicio();
-		LocalTime horaMaxima= this.estacionamientoReciente.getHoraFin();
+		LocalTime horaInicio= this.estacionamientoReciente.getHoraDeInicio();
+		LocalTime horaMaxima= this.estacionamientoReciente.getHorarioMaximo();
 		return "horaInicio="+horaInicio.getHour()+":"+horaInicio.getMinute()+" "+"horaFin="+horaMaxima.getHour()+":"+horaMaxima.getMinute()+" "+"duracion="+this.estacionamientoReciente.getDuracion()+"horas"+" "+"coste="+estacionamientoReciente.costo();
 	}
 

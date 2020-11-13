@@ -9,7 +9,7 @@ public abstract class Estacionamiento {
 	private String patente;
 	private LocalTime horaDeInicio;
 	private LocalTime horaDeFinalizacion;
-	private int zonaDeEstacionamiento;
+	private int idZonaEstacionamiento;
 	//InicioDeJornada es la hora a la que empieza a funcionar el estacionamiento (fuera de la jornada no se registraran estacionamientos)
 	private LocalTime inicioDeJornada = LocalTime.of(7, 00);
 	//FinDeJornada es la hora a la que empieza a funcionar el estacionamiento (fuera de la jornada no se registraran estacionamientos)
@@ -68,7 +68,7 @@ public abstract class Estacionamiento {
 	
 	protected void setZonaDeEstacionamiento(int unId)
 	{
-		this.zonaDeEstacionamiento = unId;
+		this.idZonaEstacionamiento = unId;
 	}
 	
 	
@@ -119,5 +119,8 @@ public abstract class Estacionamiento {
 	{
 		this.FinDeJornada = horaDeFinalizacion;
 	}
-	
+	public int getZonaId() {
+		
+		return this.idZonaEstacionamiento;
+	}
 }

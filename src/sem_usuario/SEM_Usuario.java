@@ -2,10 +2,23 @@ package sem_usuario;
  
 import java.util.ArrayList;
 
+import semAlertas.ISemAlertas;
+import semEstacionamientos.IsemEstacionamiento;
+import usuarios.Usuario;
+
 public class SEM_Usuario {
 	
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+	private ISemAlertas semAlertas;
+	private IsemEstacionamiento semEstacionamiento;
 	
+	public SEM_Usuario(ISemAlertas semAlertas, IsemEstacionamiento semEstacionamiento) {
+		
+		this.semAlertas=semAlertas;
+		this.semEstacionamiento=semEstacionamiento;
+		
+	}
+
 	private ArrayList<Usuario> getUsuarios()
 	{
 		return this.usuarios;
@@ -13,9 +26,8 @@ public class SEM_Usuario {
 	
 	public Usuario generarUsuario(int numeroDeCelular, int monto)
 	{
-		return new Usuario(numeroDeCelular, monto);
+		return new Usuario(semAlertas,semEstacionamiento,numeroDeCelular, monto);
 	}
-	
 	public void recargarCredito(int unNumeroDeCelular, int unMonto)
 	{
 		
@@ -23,7 +35,7 @@ public class SEM_Usuario {
 		{
 			if(usuario.getNumeroDeCelular() == unNumeroDeCelular)
 			{
-				usuario.recargarMonto(unMonto);
+				usuario.recargarCredito(unMonto);
 				break;
 			}
 		}
@@ -60,7 +72,7 @@ public class SEM_Usuario {
 		
 		for(Usuario usuario:this.getUsuarios())
 		{
-			montoTotal += usuario.getMonto();
+			montoTotal += usuario. getCredito();
 		}
 		
 		return montoTotal;

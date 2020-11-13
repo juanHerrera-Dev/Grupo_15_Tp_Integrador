@@ -6,21 +6,21 @@ public class EstacionamientoPorHoras extends Estacionamiento {
 	
 
 
-	int cantidadDeHoras;
+	LocalTime cantidadDeHoras;
 	
-	public EstacionamientoPorHoras(String unaPatente, int IDZonaDeEstacionamiento, int unaCantidadDeHoras) {
+	public EstacionamientoPorHoras(String unaPatente, int IDZonaDeEstacionamiento, LocalTime unaCantidadDeHoras) {
 		super(unaPatente, IDZonaDeEstacionamiento);
 		this.setCantidadDeHoras(unaCantidadDeHoras);
 		this.establecerHoraDeFinDeEstacionamiento();
 		
 	}
 
-	private void setCantidadDeHoras(int unaCantidadDeHoras)
+	private void setCantidadDeHoras(LocalTime unaCantidadDeHoras)
 	{
 		this.cantidadDeHoras = unaCantidadDeHoras;
 	}
 
-	private  int  getCantidadDeHoras()
+	private  LocalTime  getCantidadDeHoras()
 	{
 		return cantidadDeHoras;
 	}
@@ -28,14 +28,14 @@ public class EstacionamientoPorHoras extends Estacionamiento {
 	
 	@Override
 	public void establecerHoraDeFinDeEstacionamiento() {
-		this.setHoraDeFinalizacion(LocalTime.now().plusHours(this.getCantidadDeHoras()));
+		this.setHoraDeFinalizacion(LocalTime.now().plusHours(this.getCantidadDeHoras().getHour()));
 		
 	}
 
 	@Override
 	public boolean estacionamientoVigente(LocalTime horaActual) {
 		
-		boolean vigencia = this.getHoraDeFinalizacion().isBefore(horaActual);
+		boolean vigencia = this.getHoraDeFinalizacion().isAfter(horaActual);
 		
 		return vigencia;
 	}

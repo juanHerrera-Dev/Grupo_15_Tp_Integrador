@@ -1,10 +1,13 @@
 package estacionamiento;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import estacionamiento.EstacionamientoPorHoras;
 
@@ -24,11 +27,11 @@ public class EstacionamientoPorHorasTest {
 	public void setUp()
 	{
 		String patente = "abc123";
-		int cantidadDeHorasCompradas = 1;
+		LocalTime cantidadDeHorasCompradas = LocalTime.of(1,00);
 		int IDPuntoDeVenta = 101;
 		
 		estacionamiento = new EstacionamientoPorHoras(patente, IDPuntoDeVenta, cantidadDeHorasCompradas);
-		tiempo = LocalTime.now().plusHours(cantidadDeHorasCompradas);
+		tiempo = LocalTime.now().plusHours(cantidadDeHorasCompradas.getHour());
 	}
 	
 	@Test
@@ -42,12 +45,33 @@ public class EstacionamientoPorHorasTest {
 	@Test
 	public void estacionamientoVigenteTest()
 	{
-		//Estacionamiento  vigente
-		assertEquals(true, estacionamiento.estacionamientoVigente(LocalTime.now()));
 		
-		//Estacionamiento vencido
-		LocalTime hora = LocalTime.now().plusHours(1).plusMinutes(1);
-		assertEquals(false, estacionamiento.estacionamientoVigente(hora));
+		String patente = "abc123";
+		LocalTime cantidadDeHorasCompradas = LocalTime.of(2,00);
+		int IDPuntoDeVenta = 101;
+		
+		
+		LocalTime horaActual = LocalTime.of(12,00);
+		
+		LocalTime horaCuandoEstaVigente= LocalTime.of(13,00);
+		
+		LocalTime horaCuandoYaNoEstaVigente= LocalTime.of(18,00);
+		
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			estacionamiento = new EstacionamientoPorHoras(patente, IDPuntoDeVenta, cantidadDeHorasCompradas);
+			
+			//Estacionamiento  vigente
+			assertEquals(true, estacionamiento.estacionamientoVigente(horaCuandoEstaVigente));
+			
+			//Estacionamiento vencido
+			
+			assertEquals(false, estacionamiento.estacionamientoVigente(horaCuandoYaNoEstaVigente));
+			
+		
+		} 
+		
 		
 	}
 

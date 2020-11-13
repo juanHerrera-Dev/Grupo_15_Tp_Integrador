@@ -8,17 +8,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.*;
 
+import semAlertas.ISemAlertas;
+import semEstacionamientos.IsemEstacionamiento;
 import sem_usuario.SEM_Usuario;
-import sem_usuario.Usuario;
+import usuarios.Usuario;
+
 
 public class SEMUsuarioTest {
-
+	
+	ISemAlertas semAlertas; 
+	
+	IsemEstacionamiento semEstacionamiento;
+	
+	
 	SEM_Usuario semUsuarios;
 	
 	@BeforeEach
 	void setUp()
 	{
-		semUsuarios = new SEM_Usuario();
+		semUsuarios = new SEM_Usuario(semAlertas,semEstacionamiento);
 		
 	}
 	
@@ -30,7 +38,10 @@ public class SEMUsuarioTest {
 		int numeroDeCelular = 1566770520;
 		int monto = 100;
 		
-		semUsuarios.generarUsuario(numeroDeCelular, monto);
+		Usuario usuarioGenerado= semUsuarios.generarUsuario(numeroDeCelular, monto);
+		
+		semUsuarios.guardarUsuario(usuarioGenerado);
+
 		
 		
 		assertEquals("Deberia haber agregado un usuario", 1, semUsuarios.cantidadDeUsuarios());
@@ -52,7 +63,7 @@ public class SEMUsuarioTest {
 		semUsuarios.recargarCredito(1566770502, 100);
 		
 		verify(usuario3).getNumeroDeCelular();
-		verify(usuario3).recargarMonto(100);
+		verify(usuario3).recargarCredito(100);
 	}
 	
 	
@@ -143,9 +154,9 @@ public class SEMUsuarioTest {
 		Usuario usuario1 = mock(Usuario.class);
 		Usuario usuario2 = mock(Usuario.class);
 		Usuario usuario3 = mock(Usuario.class);
-		when(usuario1.getMonto()).thenReturn(100);
-		when(usuario2.getMonto()).thenReturn(150);
-		when(usuario3.getMonto()).thenReturn(1000);
+		when(usuario1.getCredito()).thenReturn(100.0);
+		when(usuario2.getCredito()).thenReturn(150.0);
+		when(usuario3.getCredito()).thenReturn(1000.0);
 		
 		semUsuarios.guardarUsuario(usuario1);
 		semUsuarios.guardarUsuario(usuario2);

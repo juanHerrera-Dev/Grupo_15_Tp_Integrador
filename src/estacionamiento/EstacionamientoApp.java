@@ -107,11 +107,25 @@ public class EstacionamientoApp extends Estacionamiento {
 	
 	public double costo ()
 	{
-		int minutosEstacionados =  (LocalTime.now().getHour() - super.getHoraDeInico().getHour()) * 60;
+		int minutosEstacionados =  (LocalTime.now().getHour() - super.getHoraDeInicio().getHour()) * 60;
 		
-		minutosEstacionados    +=  (LocalTime.now().getMinute() - super.getHoraDeInico().getMinute());
+		minutosEstacionados    +=  (LocalTime.now().getMinute() - super.getHoraDeInicio().getMinute());
 		
 		return (this.costoPorHora/60)*minutosEstacionados;
 
 	}
+
+
+
+
+	public int getDuracion() {
+		
+		int duracionHoras=(super.getHoraDeFinalizacion().getHour() - super.getHoraDeInicio().getHour());
+		return duracionHoras;
+	}
+
+
+
+
+	
 }

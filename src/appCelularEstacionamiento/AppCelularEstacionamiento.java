@@ -75,25 +75,11 @@ public class AppCelularEstacionamiento implements MovementSensor{
 		return this.numeroDeCelular;
 	}
 	
+	public String getPatente() {
+		return patente;
+	}
 
-	
-	
-	
-	
-	
-	/*
-	 * inicioDe
-	 * fin
-	 * consulta
-	 */
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -102,6 +88,9 @@ public class AppCelularEstacionamiento implements MovementSensor{
 	// MODOS DE LA APP, AUTO/MANUAL, ALERTAS, E IINTERFACE MOVEMENTSENSOR
 	//*******************************************************************
 	
+
+
+
 	/**
 	 * Cambia el estado para poder recibir o no alertas de estacionamiento
 	 */
@@ -135,13 +124,11 @@ public class AppCelularEstacionamiento implements MovementSensor{
 		this.setPatente(unaPatente);
 		this.modoApp = new Automatico();
 	}
+
 	
-	//Uso exclusivo del modo Automatico
-	public String iniciarEstacionamiento()
+	public int getIdZonaDeEstacionamiento()
 	{
-		int idZonaDeEstacionamiento = this.iZona.buscarIdZona(this.consultarCoordenadasAlGPS());
-		
-		return this.iniciarEstacionamiento(this.patente, idZonaDeEstacionamiento );
+		return this.iZona.buscarIdZona(this.consultarCoordenadasAlGPS());
 	}
 	
 	//El mensaje lo manda el estado  EnAuto
@@ -156,19 +143,6 @@ public class AppCelularEstacionamiento implements MovementSensor{
 		modoApp.alertaDeFinDeEstacionamiento(this);
 	}
 	
-
-	//El mensaje lo manda el modo  Manual.
-	public String alertarInicioDeEstacionamiento()
-	{
-		return "Alerta. Recuerde iniciar estacionamiento";
-	}
-	
-	
-	//El mensaje lo manda el modo  Manual.
-	public String alertarFinalizacionDeEstacionamiento()
-	{
-		return "Alerta. Recuerde finalizar estacionamiento";
-	}
 	
 	
 	//INTERFACE MOVENTSENSOR

@@ -4,14 +4,20 @@ public class Automatico extends ModoApp{
 
 
 	@Override
-	public void alertaDeInicioDeEstacionamiento(AppCelularEstacionamiento app) {
+	public String alertaDeInicioDeEstacionamiento(AppCelularEstacionamiento app) {
 		
-		app.iniciarEstacionamiento();
+		String patente   = app.getPatente();
+		int idZonaEst = app.getIdZonaDeEstacionamiento();
+		
+		return app.iniciarEstacionamiento(patente, idZonaEst);
 	}
 
+	
+
 	@Override
-	public void alertaDeFinDeEstacionamiento(AppCelularEstacionamiento app) {
-		app.finalizarEstacionamiento();
+	public String alertaDeFinDeEstacionamiento(AppCelularEstacionamiento app) {
+		
+		return app.finalizarEstacionamiento();
 	}
 
 }

@@ -28,6 +28,7 @@ public class EstacionamientoPorHoras extends Estacionamiento {
 	
 	@Override
 	public void establecerHoraDeFinDeEstacionamiento() {
+		
 		this.setHoraDeFinalizacion(LocalTime.now().plusHours(this.getCantidadDeHoras().getHour()));
 		
 	}
@@ -42,7 +43,8 @@ public class EstacionamientoPorHoras extends Estacionamiento {
 
 	@Override
 	public void finalizarEstacionamiento() {
-		// TODO Auto-generated method stub
-		
+		// no hace nada, ni deberia hacerlo.
 	}
+
+
 }

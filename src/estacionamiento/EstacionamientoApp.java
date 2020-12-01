@@ -9,13 +9,12 @@ public class EstacionamientoApp extends Estacionamiento {
 
 	int numeroDeCelular; 
 	LocalTime horarioMaximo;
-	float costoPorHora;
+	double costoPorHora;
 																									
-	public EstacionamientoApp(String unaPatente, int IDZonaDeEstacionamiento,int unNumeroDeCelular, int minutos)
+	public  EstacionamientoApp(String unaPatente, int IDZonaDeEstacionamiento,int unNumeroDeCelular, int minutos)
 	{
 		super(unaPatente, IDZonaDeEstacionamiento);
 		this.setNumeroDeCelular(unNumeroDeCelular);
-		//poner metodo que sume hasta las 8
 		this.setHorarioMaximo(LocalTime.now());
 		this.actualizarHorarioMaximo(minutos);
 	}
@@ -95,12 +94,12 @@ public class EstacionamientoApp extends Estacionamiento {
 		this.horarioMaximo = unHorario;
 	}
 
-	public void setCostorPoHora(float unCostoPorHora)
+	public void setCostorPoHora(double unCostoPorHora)
 	{
 		this.costoPorHora = unCostoPorHora;
 	}
 	
-	public float getCostoPorHora()
+	public double getCostoPorHora()
 	{
 		return this.costoPorHora;
 	}

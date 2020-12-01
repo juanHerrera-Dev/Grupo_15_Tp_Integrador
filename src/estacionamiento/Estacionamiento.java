@@ -29,7 +29,7 @@ public abstract class Estacionamiento {
 	}
 	
 	
-	//ABSTRACT 
+
 	
 	abstract public void establecerHoraDeFinDeEstacionamiento();
 	
@@ -37,10 +37,7 @@ public abstract class Estacionamiento {
 	
 	abstract public void finalizarEstacionamiento();
 	
-	//PRIVATE
-	
-	
-	//PROTECTED
+
 	
 	protected void setPatente(String unaPatente)
 	{
@@ -72,8 +69,7 @@ public abstract class Estacionamiento {
 	}
 	
 	
-	//No se me ocurre como no darle acceso a la variable, hasta ahora lo habia logrado pero
-	//se va complicando
+
 	
 	protected LocalTime getHoraDeFinalizacion()
 	{
@@ -81,7 +77,7 @@ public abstract class Estacionamiento {
 	}
 	
 	 
-    //PUBLIC
+
 	 
 	public String getPatente()
 	{

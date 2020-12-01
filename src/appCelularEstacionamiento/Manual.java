@@ -4,18 +4,19 @@ public class Manual extends ModoApp{
 
 	
 	@Override
-	public void alertaDeInicioDeEstacionamiento(AppCelularEstacionamiento app) {
+	public String alertaDeInicioDeEstacionamiento(AppCelularEstacionamiento app) {
 		
-		app.alertarInicioDeEstacionamiento();
+		return "Alerta. Recuerde iniciar estacionamiento";
 	}
 	
 	
 	
 	@Override
-	public void alertaDeFinDeEstacionamiento(AppCelularEstacionamiento app) {
+	public String alertaDeFinDeEstacionamiento(AppCelularEstacionamiento app) {
 		
-		app.alertarFinalizacionDeEstacionamiento();
+		return "Alerta. Recuerde finalizar estacionamiento";
 	}
+
 
 
 

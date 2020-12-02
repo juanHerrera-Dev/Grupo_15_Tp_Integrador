@@ -5,24 +5,28 @@ package usuarios;
 
 import java.time.LocalTime;
 import estacionamiento.EstacionamientoApp;
+import estacionamiento.ISemEstacionamiento;
+import estacionamiento.SemEstacionamiento;
 import semAlertas.ISemAlertas;
-import semEstacionamientos.IsemEstacionamiento;
+import semAlertas.SemAlertas;
+import semPrincipal.ISemPrincipal;
+import sem_usuario.IUsuarioApp;
 
-public class Usuario {
+public class Usuario implements IUsuarioApp{
 	
 	private double monto;
 	private int nmrCelular;
-	private ISemAlertas semAlertas;
-	private IsemEstacionamiento semEstacionamiento;
+	
 	private EstacionamientoApp estacionamientoReciente;
+	private ISemPrincipal semPrincipal;
 	
 	
-	public Usuario(ISemAlertas semAlertas, IsemEstacionamiento semEstacionamiento, double monto, int nmrCelular) {
+	public Usuario(ISemPrincipal semPrincipal, double monto, int nmrCelular) {
 		
 		this.monto=monto;
 		this.nmrCelular=nmrCelular;
-		this.semAlertas=semAlertas;
-		this.semEstacionamiento=semEstacionamiento;
+		this.semPrincipal=semPrincipal;
+		
 	}
 
 	
@@ -48,16 +52,26 @@ public class Usuario {
 			this.estacionamientoReciente= new EstacionamientoApp(patente,zonaId,this.nmrCelular,this.minutosDeEstacionamiento(this.monto));
 			//this.horaDeFinDeEstacionamiento()
 			//envio de alerta a la semAlertas
-			this.semAlertas.alertaInicioDeEstacionamiento(this.nmrCelular,this.monto, zonaId,LocalTime.now());
+			getSemAlertas().alertaInicioDeEstacionamiento(this.nmrCelular,this.monto, zonaId,LocalTime.now());
 		
 			//almacenamiento del estacionamiento en la semEstacionamiento
-			this.semEstacionamiento.guardarEstacionamiento(this.estacionamientoReciente);
+			getSemEstacionamiento().guardarEstacionamiento(this.estacionamientoReciente);
 		
 		
 			//notificacion de inicioDeEstacionamiento para la app
 			return notificacionDeInicioDeEstacionamiento();
 		}
 		else {return "Saldo insuficiente. Estacionamiento no permitido.";}
+	}
+
+
+	private ISemEstacionamiento getSemEstacionamiento() {
+		return this.semPrincipal.getSemEstacionamiento();
+	}
+
+
+	private ISemAlertas getSemAlertas() {
+		return this.semPrincipal.getSemAlertas();
 	}
 
 
@@ -99,7 +113,7 @@ public class Usuario {
 		if(this.estacionamientoReciente.estacionamientoVigente(LocalTime.now())) {	
 				this.estacionamientoReciente.finalizarEstacionamiento();
 		
-				this.semAlertas.alertaFinDeEstacionamiento(this.nmrCelular,this.monto,this.estacionamientoReciente.getZonaId(), LocalTime.now());
+				getSemAlertas().alertaFinDeEstacionamiento(this.nmrCelular,this.monto,this.estacionamientoReciente.getZonaId(), LocalTime.now());
 		
 				return notificacionDeFinDeEstacionamiento();
 		}
@@ -135,7 +149,7 @@ public class Usuario {
 	public void recargarCredito(double montoACargar) {
 		
 		this.monto=this.monto+montoACargar;
-		this.semAlertas.alertaRecargaDeSaldo(this.nmrCelular,montoACargar,LocalTime.now());
+		getSemAlertas().alertaRecargaDeSaldo(this.nmrCelular,montoACargar,LocalTime.now());
 		
 		if(this.estacionamientoReciente != null) {this.estacionamientoReciente.actualizarHorarioMaximo(this.minutosDeEstacionamiento(montoACargar));}
 		;

@@ -2,16 +2,16 @@ package inspector;
 
 import java.time.LocalTime;
 
-import estacionamiento.IEstacionamiento;
+import estacionamiento.ISemEstacionamiento;
 import sEM_Multa.IMulta;
 
 public class InspectorApp {
 	private int idInspector;
 	private int idZonaDeEstacionamiento;
-	private IEstacionamiento iestacionamiento;
+	private ISemEstacionamiento iestacionamiento;
 	private IMulta imulta;
 	
-	public InspectorApp(int unIdInspector, int unIdZonaDeEstacionamiento, IEstacionamiento unaIestacionamiento, IMulta unaIMulta)
+	public InspectorApp(int unIdInspector, int unIdZonaDeEstacionamiento, ISemEstacionamiento unaIestacionamiento, IMulta unaIMulta)
 	{
 		this.idInspector = unIdInspector;
 		this.idZonaDeEstacionamiento = unIdZonaDeEstacionamiento;

@@ -5,20 +5,22 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import estacionamiento.IEstacionamiento;
 
-public class SEM_Multa implements IMulta{
+import estacionamiento.SemEstacionamiento;
+import semPrincipal.ISemPrincipal;
+
+public class SemMultas implements IMulta{
 	
 	protected ArrayList<Multa> multas;
 	//private static final SEM_Multa SEM_MULTA;
-	private final IEstacionamiento SEM_Estacionamiento;
 	
+	private ISemPrincipal semPrincipal;
 	
-	
-	public  SEM_Multa(IEstacionamiento iEstacionamiento)
-	{
+	public  SemMultas(ISemPrincipal semPrincipal)
+	{	
+		this.semPrincipal=semPrincipal;
 		this.multas = new ArrayList<Multa>();
-		this.SEM_Estacionamiento = iEstacionamiento;
+		
 	}
 	
 	
@@ -111,7 +113,7 @@ public class SEM_Multa implements IMulta{
 	@Override
 	public void registrarMulta(String patente, int idZonaDeEstacionamiento, int idInspector) 
 	{
-		if(!SEM_Estacionamiento.consultarEstacionamiento(patente, LocalTime.now()))
+		if(!getSemEstacionamiento().consultarEstacionamiento(patente, LocalTime.now()))
 		{
 			Multa unaMulta = this.generarMulta(patente, idZonaDeEstacionamiento, LocalDate.now(), LocalTime.now(), idInspector);
 			this.agregarMulta(unaMulta);
@@ -121,6 +123,11 @@ public class SEM_Multa implements IMulta{
 			System.out.println("La multa no se puede realizar por que el estacionamiento es valido.");
 		}
 		
+	}
+
+
+	private SemEstacionamiento getSemEstacionamiento() {
+		return this.semPrincipal.getSemEstacionamiento();
 	}
 	
 	private Multa  generarMulta( String patente, int idZonaDeEstacionamiento, LocalDate fecha, LocalTime hora, int idInspector)

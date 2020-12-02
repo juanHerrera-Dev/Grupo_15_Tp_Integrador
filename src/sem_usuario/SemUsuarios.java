@@ -1,34 +1,34 @@
 package sem_usuario;
  
 import java.util.ArrayList;
+import java.util.List;
 
-import semAlertas.ISemAlertas;
-import semEstacionamientos.IsemEstacionamiento;
+import semPrincipal.ISemPrincipal;
 import usuarios.Usuario;
 
-public class SEM_Usuario {
+public class SemUsuarios implements IUsuarioSEM{
 	
-	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-	private ISemAlertas semAlertas;
-	private IsemEstacionamiento semEstacionamiento;
+	private List<Usuario> usuarios ;
 	
-	public SEM_Usuario(ISemAlertas semAlertas, IsemEstacionamiento semEstacionamiento) {
+	private ISemPrincipal semPrincipal;
+	
+	public SemUsuarios(ISemPrincipal semPrincipal) {
 		
-		this.semAlertas=semAlertas;
-		this.semEstacionamiento=semEstacionamiento;
-		
+		this.semPrincipal=semPrincipal;
+		this.usuarios=new ArrayList<Usuario>();
+	
 	}
 
-	private ArrayList<Usuario> getUsuarios()
+	private List<Usuario> getUsuarios()
 	{
-		return this.usuarios;
+		return this.usuarios;  
 	}
 	
-	public Usuario generarUsuario(int numeroDeCelular, int monto)
+	public Usuario generarUsuario(int numeroDeCelular, double monto)
 	{
-		return new Usuario(semAlertas,semEstacionamiento,numeroDeCelular, monto);
+		return new Usuario(semPrincipal,monto, numeroDeCelular);
 	}
-	public void recargarCredito(int unNumeroDeCelular, int unMonto)
+	public void recargarCredito(int unNumeroDeCelular, double unMonto)
 	{
 		
 		for(Usuario usuario:this.getUsuarios())
@@ -47,11 +47,11 @@ public class SEM_Usuario {
 	} 
 	
 	
-	public Usuario buscarUsuario(int unNumeroDeCelular)
+	public IUsuarioApp getIUsuario(int numeroDeCelular)
 	{
 		for(Usuario usuario:this.getUsuarios())
 		{
-			if(usuario.getNumeroDeCelular() == unNumeroDeCelular)
+			if(usuario.getNumeroDeCelular() == numeroDeCelular)
 			{
 				return usuario;
 			}
@@ -82,4 +82,8 @@ public class SEM_Usuario {
 	{
 		this.getUsuarios().add(unUsuario);
 	}
+
+	
+
+	
 }

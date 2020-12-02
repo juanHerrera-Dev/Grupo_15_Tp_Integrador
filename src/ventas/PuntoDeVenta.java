@@ -5,6 +5,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 import estacionamiento.EstacionamientoPorHoras;
+import estacionamiento.ISemEstacionamiento;
+import semPrincipal.ISemPrincipal;
+import sem_usuario.IUsuarioSEM;
 
 
 
@@ -13,18 +16,17 @@ public class PuntoDeVenta {
 	private int id;
 	private String nombre;
 	private String dir;
-	private ISemUsuario iSemUsuario;
-	private ISemEstacionamiento iSemEstacionamiento;
+	private ISemPrincipal semPrincipal;
 	private int id_zona;
 	private ArrayList<Venta> ventas;
+	private IUsuarioSEM semUsuarios;
 	
-	public PuntoDeVenta(int id, String nombre, String dir, ISemUsuario iSemUsuario, ISemEstacionamiento iSemEstacionamiento) {
+	public PuntoDeVenta(int id, String nombre, String dir, ISemPrincipal semPrincipal) {
 		
 		this.id=id;
 		this.nombre=nombre;
 		this.dir=dir;
-		this.iSemUsuario=iSemUsuario;
-		this.iSemEstacionamiento=iSemEstacionamiento;
+		this.semPrincipal=semPrincipal;
 		this.ventas= new ArrayList<Venta>();
 	}
 
@@ -44,14 +46,16 @@ public class PuntoDeVenta {
 	}
 
 
-	public ISemUsuario getIRecarga() {
+	public IUsuarioSEM getIRecarga() {
 		
-		return this.iSemUsuario;
+		semUsuarios=this.semPrincipal.getSemUsuarios();
+	
+		return semUsuarios;
 	}
 
 	public ISemEstacionamiento getIEstacionamiento() {
 		
-		return this.iSemEstacionamiento;
+		return this.semPrincipal.getSemEstacionamiento();
 	}
 
 	public void setIdZona(int idZona) {
@@ -73,7 +77,7 @@ public class PuntoDeVenta {
 		
 		this.ventas.add(new	VentaPuntual(generarNmrControl(), this.id, LocalDate.now(), LocalTime.now(), cantHoras));
 		
-		this.iSemEstacionamiento.guardarEstacionamiento(new EstacionamientoPorHoras(patente,this.id_zona, cantHoras));
+		this.getIEstacionamiento().guardarEstacionamiento(new EstacionamientoPorHoras(patente,this.id_zona, cantHoras));
 		//this.iSemEstacionamiento.guardarEstacionamiento();
 	}
 
@@ -88,7 +92,12 @@ public class PuntoDeVenta {
 	public void hacerRecarga(int nmrCelular, double montoARecargar) {
 		
 		this.ventas.add(new	VentaRecarga(generarNmrControl(), this.id, LocalDate.now(), LocalTime.now(),nmrCelular,montoARecargar));
-		this.iSemUsuario.recargarCredito(nmrCelular,montoARecargar);
+		this.getIRecarga().recargarCredito(nmrCelular,montoARecargar);
+	}
+
+	public ISemPrincipal getSemPrincipal() {
+		
+		return this.semPrincipal;
 	}
 
 	

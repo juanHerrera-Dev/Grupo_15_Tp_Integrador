@@ -6,7 +6,7 @@ import semAlertas.SemAlertas;
 import semZonas.SemZonasEstacionamiento;
 import sem_usuario.SemUsuarios;
 
-public class SemPrincipal {
+public class SemPrincipal implements ISemPrincipal{
 
 	private SemEstacionamiento semEstacionamiento;
 	private SemZonasEstacionamiento semZonas;
@@ -14,13 +14,12 @@ public class SemPrincipal {
 	private SemAlertas semAlertas;
 	private SemMultas semMultas;
 
-	public SemPrincipal(SemEstacionamiento semEstacionamiento, SemAlertas semAlertas, SemZonasEstacionamiento semZonas,
-			SemUsuarios semUsuarios, SemMultas semMultas) {
-		this.semEstacionamiento=semEstacionamiento;
-		this.semAlertas=semAlertas;
-		this.semZonas=semZonas;
-		this.semUsuarios=semUsuarios;
-		this.semMultas=semMultas;
+	public SemPrincipal() {
+		this.semEstacionamiento=new SemEstacionamiento();
+		this.semAlertas=new SemAlertas();
+		this.semZonas=new SemZonasEstacionamiento();
+		this.semUsuarios= new SemUsuarios(this);
+		this.semMultas= new SemMultas(this);
 	}
 
 	public SemEstacionamiento getSemEstacionamiento() {

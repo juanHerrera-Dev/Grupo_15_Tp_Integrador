@@ -2,11 +2,12 @@ package semAlertas;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
-public class SemAlertas {
+public class SemAlertas implements ISemAlertas {
 	
 	
-	private ArrayList<Suscriptor> suscriptores;
+	private List<Suscriptor> suscriptores;
 
 
 	public SemAlertas() {
@@ -14,7 +15,7 @@ public class SemAlertas {
 	}
 	
 	
-	public ArrayList<Suscriptor> getSuscriptores() {
+	public List<Suscriptor> getSuscriptores() {
 		// TODO Auto-generated method stub
 		return this.suscriptores;
 	}

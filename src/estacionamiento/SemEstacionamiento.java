@@ -2,13 +2,18 @@ package estacionamiento;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+import semPrincipal.SemPrincipal;
  
-public class SEM_Estacionamiento implements IEstacionamiento {
+public class SemEstacionamiento implements ISemEstacionamiento {
 
 	ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
 	
+	//falta constructor
 	
 	
+
+
 	public boolean consultarEstacionamiento(String patente, LocalTime ahora) {
 		
 		boolean vigencia = false;

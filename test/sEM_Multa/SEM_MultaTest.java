@@ -4,22 +4,23 @@ import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.*;
 
-import estacionamiento.IEstacionamiento;
-import sEM_Multa.Multa;
-import sEM_Multa.SEM_Multa;
+
+import estacionamiento.SemEstacionamiento;
+
+import semPrincipal.ISemPrincipal;
 
 
 public class SEM_MultaTest {
 
 	
-	SEM_Multa semM;
-	
+	SemMultas semM;
+	ISemPrincipal semPrincipal;
 	
 	@BeforeEach
 	void setUp()
 	{
-		IEstacionamiento estacionamiento = mock(IEstacionamiento.class);
-		semM = new SEM_Multa(estacionamiento);
+		semPrincipal= mock(ISemPrincipal.class);
+		semM = new SemMultas(semPrincipal);
 	}
 	
 	
@@ -196,6 +197,10 @@ public class SEM_MultaTest {
 	{
 		int idZonaEstacionamiento = 100;
 		int idInspector = 7;
+		
+		SemEstacionamiento semEstacionamiento= mock(SemEstacionamiento.class);
+		
+		when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 		
 		semM.registrarMulta("abc123", idZonaEstacionamiento, idInspector);
 	}

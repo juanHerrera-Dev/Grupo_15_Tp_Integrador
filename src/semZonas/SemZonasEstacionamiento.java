@@ -1,20 +1,21 @@
 package semZonas;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import zonaDeEstacionamiento.ZonaDeEstacionamiento;
 
 public class SemZonasEstacionamiento {
 	
+	private List<ZonaDeEstacionamiento> zonas;
 	
 	public SemZonasEstacionamiento() {
-		this.zonas=new ArrayList<ZonaDeEstacionamiento>();
+		this.zonas= new ArrayList<ZonaDeEstacionamiento>();
 	}
 	
-	private ArrayList<ZonaDeEstacionamiento> zonas;
+	
 
-	public ArrayList<ZonaDeEstacionamiento> getZonas() {
+	public List<ZonaDeEstacionamiento> getZonas() {
 		
 		return this.zonas;
 	}

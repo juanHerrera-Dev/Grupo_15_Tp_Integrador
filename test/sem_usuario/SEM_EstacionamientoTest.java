@@ -7,19 +7,19 @@ import org.junit.jupiter.api.*;
 import estacionamiento.Estacionamiento;
 import estacionamiento.EstacionamientoApp;
 import estacionamiento.EstacionamientoPorHoras;
-import estacionamiento.SEM_Estacionamiento;
+import estacionamiento.SemEstacionamiento;
 import usuarios.Usuario;
 
 import java.time.LocalTime;
 
 public class SEM_EstacionamientoTest {
 	
-	SEM_Estacionamiento semEst;
+	SemEstacionamiento semEst;
 	
 	@BeforeEach
 	void setUp()
 	{
-		semEst = new SEM_Estacionamiento();
+		semEst = new SemEstacionamiento();
 	}
 	
 	

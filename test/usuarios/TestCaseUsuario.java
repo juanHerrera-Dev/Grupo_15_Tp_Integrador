@@ -9,26 +9,32 @@ import org.mockito.Mockito;
 
 import estacionamiento.EstacionamientoApp;
 
+import estacionamiento.SemEstacionamiento;
+
 import static org.mockito.Mockito.*;
 
 import java.time.LocalTime;
 
-import semAlertas.ISemAlertas;
-import semEstacionamientos.IsemEstacionamiento;
+
+import semAlertas.SemAlertas;
+import semPrincipal.ISemPrincipal;
+
 
 class TestCaseUsuario {
 	
 	Usuario usuarioX;
-	ISemAlertas semAlertas;
-	IsemEstacionamiento semEstacionamiento;
 	
-	
+	ISemPrincipal semPrincipal;
+	SemAlertas semAlertas;
+	SemEstacionamiento semEstacionamiento;
 	@BeforeEach
 	void setUp() throws Exception {
+		semPrincipal= mock(ISemPrincipal.class);
 		
-		semAlertas=mock(ISemAlertas.class);
-		semEstacionamiento=mock(IsemEstacionamiento.class);
-		usuarioX=new Usuario(semAlertas,semEstacionamiento,200.0,1531489563);
+		semAlertas=mock(SemAlertas.class);
+		semEstacionamiento= mock(SemEstacionamiento.class);
+		
+		usuarioX=new Usuario(semPrincipal,200.0,1531489563);
 	}
 
 	@Test
@@ -47,6 +53,9 @@ class TestCaseUsuario {
 			int zonaId=123;
 			String patente= "sau 231";
 			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
+			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
 			assertNotEquals(null,usuarioX.getEstacionamientoVigente());
@@ -63,11 +72,22 @@ class TestCaseUsuario {
 		
 		LocalTime horaActual = LocalTime.of(12,00);
 		
+		/**
+		 *mockeamos a las sem porque son necesarias para el funcionamiento del usuario, lo que cambio es que ahora el sem
+		 *principal se las probee al usuario en vez de tenerlas como colaborador interno 
+		 */
+		
+		SemAlertas semAlertas=mock(SemAlertas.class);
+		SemEstacionamiento semEstacionamiento= mock(SemEstacionamiento.class);
+		
 		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
 			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
 			
 			int zonaId=123;
 			String patente= "sau 231";
+			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
@@ -84,12 +104,17 @@ class TestCaseUsuario {
 	@Test
 	void testCuandoUnUsuarioIniciaUnEstacionamientoGuardaEseEstacionamientoEnLaSemEstacionamientos() {
 		
+		
+		
 		LocalTime horaActual = LocalTime.of(13,00);
 		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
 			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
 			
 			int zonaId=123;
 			String patente= "sau 231";
+			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
@@ -110,7 +135,8 @@ class TestCaseUsuario {
 			int zonaId=123;
 			String patente= "sau 231";
 			
-			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			String respuestaEsperada= "horaInicio=13:0"+" "+"horaMaxima=18:0"; 
 			
@@ -122,8 +148,10 @@ class TestCaseUsuario {
 		
 		int zonaId=123;
 		String patente= "sau 231";
-		Usuario usuarioY=new Usuario(semAlertas,semEstacionamiento,0.0,1531489563);
+		Usuario usuarioY=new Usuario(semPrincipal,0.0,1531489563);
 		
+		when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+		when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 		
 		String respuestaEsperada= "Saldo insuficiente. Estacionamiento no permitido."; 
 		
@@ -141,6 +169,9 @@ class TestCaseUsuario {
 			
 			int zonaId=123;
 			String patente= "sau 231";
+			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
@@ -160,6 +191,9 @@ class TestCaseUsuario {
 			int zonaId=123;
 			String patente= "sau 231";
 			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
+			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
 			usuarioX.finalizarEstacionamiento();
@@ -167,7 +201,7 @@ class TestCaseUsuario {
 			verify(semAlertas).alertaFinDeEstacionamiento(1531489563,200.0,zonaId, LocalTime.now());
 		} 
 	}
-	@Test //va  afuncionar cuando pueda mockear la hora y haga bien la diferencia de horario
+	@Test 
 	void testCuandoUnUsuarioFinalizaUnEstacionamientoRetornaUnaNotificacion() {
 		
 		LocalTime horaInicio = LocalTime.of(13,00);
@@ -177,6 +211,9 @@ class TestCaseUsuario {
 			
 			int zonaId=123;
 			String patente= "sau 231";
+			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
@@ -206,6 +243,9 @@ class TestCaseUsuario {
 			
 			int zonaId=123;
 			String patente= "sau 231";
+			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
@@ -241,6 +281,8 @@ class TestCaseUsuario {
 		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
 			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
 			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			
@@ -251,7 +293,7 @@ class TestCaseUsuario {
 		}
 		
 	}
-	@Test // no funciona hasta hacer el mock LocalTime.now()
+	@Test 
 	void testCuandoUnUsuarioRecargaCreditoEnviaUnaAlertaALaSemAlertas()
 	{
 	
@@ -260,6 +302,8 @@ class TestCaseUsuario {
 		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
 			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
 			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 			
 			usuarioX.recargarCredito(200.0);
 			
@@ -278,6 +322,9 @@ class TestCaseUsuario {
 		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
 			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
 			
+			when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+			when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
+			
 			usuarioX.iniciarEstacionamiento(patente,zonaId);
 			usuarioX.recargarCredito(80.0);
 			
@@ -289,6 +336,8 @@ class TestCaseUsuario {
 	@Test
 	void testCuandoUnUsuarioRecargaCreditoPeroNoPoseeUnEstacionamientoVigenteNoActualizaSuHoraMaxima()
 	{
+		when(semPrincipal.getSemAlertas()).thenReturn(semAlertas);
+		when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 		
 		usuarioX.recargarCredito(1000.0);
 		

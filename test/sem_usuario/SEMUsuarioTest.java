@@ -8,25 +8,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.*;
 
-import semAlertas.ISemAlertas;
-import semEstacionamientos.IsemEstacionamiento;
-import sem_usuario.SEM_Usuario;
+
+import semPrincipal.ISemPrincipal;
+
 import usuarios.Usuario;
 
 
 public class SEMUsuarioTest {
 	
-	ISemAlertas semAlertas; 
+
 	
-	IsemEstacionamiento semEstacionamiento;
-	
-	
-	SEM_Usuario semUsuarios;
+	ISemPrincipal semPrincipal;
+	SemUsuarios semUsuarios;
 	
 	@BeforeEach
 	void setUp()
 	{
-		semUsuarios = new SEM_Usuario(semAlertas,semEstacionamiento);
+		semPrincipal= mock(ISemPrincipal.class);
+		semUsuarios = new SemUsuarios(semPrincipal);
 		
 	}
 	
@@ -104,7 +103,7 @@ public class SEMUsuarioTest {
 		semUsuarios.guardarUsuario(usuario2);
 		semUsuarios.guardarUsuario(usuario3);
 		
-		assertSame(usuario3, semUsuarios.buscarUsuario(1566770502));
+		assertSame(usuario3, semUsuarios.getIUsuario(1566770502));
 	}
 	
 	
@@ -125,7 +124,7 @@ public class SEMUsuarioTest {
 		
 		
 		assertThrows(IllegalArgumentException.class, 
-				() -> semUsuarios.buscarUsuario(1511223344));
+				() -> semUsuarios.getIUsuario(1511223344));
               
 						
 	}

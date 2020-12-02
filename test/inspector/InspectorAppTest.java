@@ -6,14 +6,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import org.junit.jupiter.api.*;
 
-import estacionamiento.IEstacionamiento;
+import estacionamiento.ISemEstacionamiento;
 import inspector.InspectorApp;
 import sEM_Multa.IMulta;
 
 public class InspectorAppTest {
 
 	InspectorApp inspector;
-	IEstacionamiento iestacionamiento;
+	ISemEstacionamiento iestacionamiento;
 	IMulta imulta;
 	int idInspector;
 	int idZonaDeEstacionamiento;
@@ -21,7 +21,7 @@ public class InspectorAppTest {
 	@BeforeEach
 	void setUp()
 	{
-		iestacionamiento = mock(IEstacionamiento.class);
+		iestacionamiento = mock(ISemEstacionamiento.class);
 		imulta = mock(IMulta.class);
 		idInspector = 007;
 		idZonaDeEstacionamiento = 55;

@@ -6,6 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import estacionamiento.Estacionamiento;
+import estacionamiento.SemEstacionamiento;
+import semPrincipal.ISemPrincipal;
+import sem_usuario.IUsuarioSEM;
+import sem_usuario.SemUsuarios;
 
 import static org.mockito.Mockito.*;
 
@@ -15,19 +19,15 @@ class TestCasePuntoDeVenta {
 	
 	PuntoDeVenta puntoDeVentaX;
 	
-	ISemUsuario iSemUsuario;
-	ISemEstacionamiento iSemEstacionamiento;
-	
+	ISemPrincipal semPrincipal;
 	@BeforeEach
 	void setUp() throws Exception {
+		semPrincipal=mock(ISemPrincipal.class);
 		
-		iSemUsuario= mock(ISemUsuario.class);
-		iSemEstacionamiento=mock(ISemEstacionamiento.class);
 		puntoDeVentaX = new PuntoDeVenta(1,
 										"Maxiquiosco X",
 										"123 bamba",
-										iSemUsuario,
-										iSemEstacionamiento);
+										semPrincipal);
 	}
 
 	@Test
@@ -35,8 +35,8 @@ class TestCasePuntoDeVenta {
 		assertEquals(puntoDeVentaX.getID(),1);
 		assertEquals(puntoDeVentaX.getNombre(),"Maxiquiosco X");
 		assertEquals(puntoDeVentaX.getDireccion(),"123 bamba");
-		assertEquals(puntoDeVentaX.getIRecarga(),iSemUsuario);
-		assertEquals(puntoDeVentaX.getIEstacionamiento(),iSemEstacionamiento);
+		assertEquals(puntoDeVentaX.getSemPrincipal(),semPrincipal);
+		
 	}
 	@Test 
 	void testCuandoSeCreaUnPuntoDeVentaSuCantidadDeVentasEs0(){
@@ -60,29 +60,35 @@ class TestCasePuntoDeVenta {
 		
 		int idZona =12; 
 		puntoDeVentaX.setIdZona(idZona);
+		SemEstacionamiento semEstacionamiento= mock(SemEstacionamiento.class);
 		
+		when(semPrincipal.getSemEstacionamiento()).thenReturn(semEstacionamiento);
 		
 		puntoDeVentaX.venderHoras("sau 703",LocalTime.of(5,0));
 		
 		assertEquals(1,puntoDeVentaX.getVentas().size());
-		verify(iSemEstacionamiento).guardarEstacionamiento(any(Estacionamiento.class));
+		verify(semEstacionamiento).guardarEstacionamiento(any(Estacionamiento.class));
+		
 	}
 	@Test
 	void testCuandoUnPuntoDeVentaVendeUnaRecargaGeneraUnaRecargaDelCreditoDelUsuarioYUnaVenta(){
+		
+		SemUsuarios semUsuarios= mock(SemUsuarios.class);
 		
 		int idZona =12; 
 		puntoDeVentaX.setIdZona(idZona);
 		
 		int nmrCelular= 1564986425;
 		double montoARecargar= 200.0;
+		
+		when(semPrincipal.getSemUsuarios()).thenReturn(semUsuarios);//se hace esto porque se necesita a la semUsuarios para realizar la recarga
+		
 		puntoDeVentaX.hacerRecarga(nmrCelular,montoARecargar);
 		
 		assertEquals(1,puntoDeVentaX.getVentas().size());
-		verify(iSemUsuario).recargarCredito(nmrCelular,montoARecargar);
-	}
-	@Test
-	void testCuandoUnPuntoDeVentaSolicitaVenderUnEstacionamientoPuntualFueraDeHorarioNoPuede() {
+		verify(semUsuarios).recargarCredito(nmrCelular,montoARecargar);
 		
 	}
+	
 
 }

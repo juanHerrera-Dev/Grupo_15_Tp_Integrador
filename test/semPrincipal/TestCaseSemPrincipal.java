@@ -1,8 +1,7 @@
 package semPrincipal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertNotNull;
 
-import static org.mockito.Mockito.mock;
 
 
 
@@ -27,12 +26,8 @@ class TestCaseSemPrincipal {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		semEstacionamiento = mock(SemEstacionamiento.class);
-		semAlertas = mock(SemAlertas.class);
-		semZonas = mock(SemZonasEstacionamiento.class);
-		semUsuarios = mock(SemUsuarios.class);
-		semMultas = mock(SemMultas.class);
-		semPrincipal = new SemPrincipal(semEstacionamiento,semAlertas,semZonas,semUsuarios,semMultas);
+		
+		semPrincipal = new SemPrincipal();
 		
 	}
 
@@ -42,11 +37,11 @@ class TestCaseSemPrincipal {
 	 */
 	@Test
 	void testConstructorSemPrincipal() {
-		assertEquals(semPrincipal.getSemEstacionamiento(),semEstacionamiento);
-		assertEquals(semPrincipal.getSemAlertas(),semAlertas);
-		assertEquals(semPrincipal.getSemZonas(),semZonas);
-		assertEquals(semPrincipal.getSemUsuarios(),semUsuarios);
-		assertEquals(semPrincipal.getSemMultas(),semMultas);
+		assertNotNull(semPrincipal.getSemEstacionamiento());
+		assertNotNull(semPrincipal.getSemAlertas());
+		assertNotNull(semPrincipal.getSemZonas());
+		assertNotNull(semPrincipal.getSemUsuarios());
+		assertNotNull(semPrincipal.getSemMultas());
 	}
 
 }

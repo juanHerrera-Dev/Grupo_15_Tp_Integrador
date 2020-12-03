@@ -8,25 +8,31 @@ import org.junit.jupiter.api.*;
 
 import estacionamiento.ISemEstacionamiento;
 import inspector.InspectorApp;
-import sEM_Multa.IMulta;
+import sEM_Multa.ISemMulta;
+import semPrincipal.ISemPrincipal;
 
 public class InspectorAppTest {
 
 	InspectorApp inspector;
 	ISemEstacionamiento iestacionamiento;
-	IMulta imulta;
+	ISemMulta imulta;
 	int idInspector;
 	int idZonaDeEstacionamiento;
+	ISemPrincipal semPrincipal;
 	
 	@BeforeEach
 	void setUp()
 	{
+		semPrincipal= mock(ISemPrincipal.class);
 		iestacionamiento = mock(ISemEstacionamiento.class);
-		imulta = mock(IMulta.class);
+		imulta = mock(ISemMulta.class);
 		idInspector = 007;
 		idZonaDeEstacionamiento = 55;
 		
-		inspector = new InspectorApp(idInspector, idZonaDeEstacionamiento, iestacionamiento , imulta);
+		when(semPrincipal.getSemEstacionamiento()).thenReturn(iestacionamiento);
+		when(semPrincipal.getSemMultas()).thenReturn(imulta);
+		
+		inspector = new InspectorApp(idInspector, idZonaDeEstacionamiento, semPrincipal);
 	}
 	
 	@Test

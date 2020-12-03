@@ -1,18 +1,23 @@
 package semPrincipal;
 
+import estacionamiento.ISemEstacionamiento;
 import estacionamiento.SemEstacionamiento;
+import sEM_Multa.ISemMulta;
 import sEM_Multa.SemMultas;
+import semAlertas.ISemAlertas;
 import semAlertas.SemAlertas;
+import semZonas.ISemZonaDeEstacionamiento;
 import semZonas.SemZonasEstacionamiento;
+import sem_usuario.ISemUsuarios;
 import sem_usuario.SemUsuarios;
 
 public class SemPrincipal implements ISemPrincipal{
 
-	private SemEstacionamiento semEstacionamiento;
-	private SemZonasEstacionamiento semZonas;
-	private SemUsuarios semUsuarios;
-	private SemAlertas semAlertas;
-	private SemMultas semMultas;
+	private ISemEstacionamiento semEstacionamiento;
+	private ISemZonaDeEstacionamiento semZonas;
+	private ISemUsuarios semUsuarios;
+	private ISemAlertas semAlertas;
+	private ISemMulta semMultas;
 
 	public SemPrincipal() {
 		this.semEstacionamiento=new SemEstacionamiento();
@@ -22,23 +27,23 @@ public class SemPrincipal implements ISemPrincipal{
 		this.semMultas= new SemMultas(this);
 	}
 
-	public SemEstacionamiento getSemEstacionamiento() {
+	public ISemEstacionamiento getSemEstacionamiento() {
 		return semEstacionamiento;
 	}
 
-	public SemZonasEstacionamiento getSemZonas() {
+	public ISemZonaDeEstacionamiento getSemZonas() {
 		return semZonas;
 	}
 
-	public SemUsuarios getSemUsuarios() {
+	public ISemUsuarios getSemUsuarios() {
 		return semUsuarios;
 	}
 
-	public SemAlertas getSemAlertas() {
+	public ISemAlertas getSemAlertas() {
 		return semAlertas;
 	}
 
-	public SemMultas getSemMultas() {
+	public ISemMulta getSemMultas() {
 		return semMultas;
 	}
 

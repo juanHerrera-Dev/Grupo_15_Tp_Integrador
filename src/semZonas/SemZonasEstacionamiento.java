@@ -5,7 +5,7 @@ import java.util.List;
 
 import zonaDeEstacionamiento.ZonaDeEstacionamiento;
 
-public class SemZonasEstacionamiento {
+public class SemZonasEstacionamiento implements ISemZonaDeEstacionamiento {
 	
 	private List<ZonaDeEstacionamiento> zonas;
 	

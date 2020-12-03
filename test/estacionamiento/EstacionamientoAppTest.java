@@ -73,10 +73,17 @@ public class EstacionamientoAppTest {
 	//Este test verifica la hora de estaciomiento podria fallar si justo cambia la hora cuando se ejecutan los metodos.
 	public void finalizarEstacionamientoTest()
 	{
-		estacionamiento.finalizarEstacionamiento();
-		LocalTime horaFin = LocalTime.now();
+		LocalTime horaActual = LocalTime.of(12,00);
 		
-		assertEquals(horaFin, estacionamiento.getHoraDeFinalizacion());
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+		
+		
+			estacionamiento.finalizarEstacionamiento();
+			LocalTime horaFin = LocalTime.now();
+		
+			assertEquals(horaFin, estacionamiento.getHoraDeFinalizacion());
+		}
 	}
 	
 	@Test

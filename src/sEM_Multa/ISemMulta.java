@@ -2,7 +2,7 @@ package sEM_Multa;
 
 
 
-public interface IMulta {
+public interface ISemMulta {
 	
 	public void registrarMulta( String patente, int idZonaDeEstacionamiento, int idInspector);
 

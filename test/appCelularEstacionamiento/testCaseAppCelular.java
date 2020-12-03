@@ -9,51 +9,69 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import semPrincipal.ISemPrincipal;
+import semZonas.ISemZonaDeEstacionamiento;
+
+import sem_usuario.ISemUsuarios;
 import sem_usuario.IUsuarioApp;
-import sem_usuario.IUsuarioSEM;
-import sem_usuario.IZonaDeEstacionamiento;
+
 
 class testCaseAppCelular {
 
 	AppCelularEstacionamiento app;
 	IUsuarioApp iUsuarioApp;
-	IUsuarioSEM iUsuarioSEM;
-	IZonaDeEstacionamiento iZonaEstacionamiento;
-	
+	ISemUsuarios iSemUsuarios;
+	ISemZonaDeEstacionamiento iZonaEstacionamiento;
+	ISemPrincipal semPrincipal;
+	ModoApp modoApp;
+	EstadoApp estadoApp;
 	
 	@BeforeEach
 	void setUp() throws Exception
-	{
+	{	
+		semPrincipal= mock(ISemPrincipal.class);
+		
+		modoApp= mock(ModoApp.class);
+		estadoApp= mock(EstadoApp.class);
+		
 		int numeroDeCelular = 1566770500; 
 		iUsuarioApp = mock(IUsuarioApp.class);  
-		iUsuarioSEM = mock(IUsuarioSEM.class);
-		when(iUsuarioSEM.getIUsuario(numeroDeCelular)).thenReturn(iUsuarioApp);
-		iZonaEstacionamiento = mock(IZonaDeEstacionamiento.class);
+		iSemUsuarios = mock(ISemUsuarios.class);
+		when(iSemUsuarios.getIUsuario(numeroDeCelular)).thenReturn(iUsuarioApp);
+		iZonaEstacionamiento = mock(ISemZonaDeEstacionamiento.class);
 		when(iZonaEstacionamiento.buscarIdZona(100)).thenReturn(100);
-		app = new AppCelularEstacionamiento(numeroDeCelular, iUsuarioSEM, iZonaEstacionamiento);
+		
+		when(semPrincipal.getSemUsuarios()).thenReturn(iSemUsuarios);
+		
+		
+		app = new AppCelularEstacionamiento(numeroDeCelular,semPrincipal,modoApp,estadoApp );
 		
 	} 
-	   
-
-
+	
 	
 	@Test
 	public void testIniciarEstacionamiento()
 	{
 		String patente = "abc123";
-		int zonaDeEstacionamiento = 101;
+		int idZonaDeEstacionamiento = 101;
 		
-		app.iniciarEstacionamiento(patente, zonaDeEstacionamiento);
+		when(semPrincipal.getSemZonas()).thenReturn(iZonaEstacionamiento);
+		when(iZonaEstacionamiento.buscarIdZona(100)).thenReturn(idZonaDeEstacionamiento);
 		
-		verify(iUsuarioApp).iniciarEstacionamiento(patente, zonaDeEstacionamiento);
+		app.iniciarEstacionamiento(patente);
+		
+		
+		verify(modoApp).iniciarEstacionamiento(patente, idZonaDeEstacionamiento,app);
 	}
 	
 	@Test
 	public void testFinalizarEstacionamiento() 
-	{
+	{	
+		
+		
 		app.finalizarEstacionamiento();
 		
-		verify(iUsuarioApp).finalizarEstacionamiento();
+		verify(modoApp).finalizarEstacionamiento(app);
 	}
 	 
 	@Test
@@ -65,79 +83,66 @@ class testCaseAppCelular {
 		verify(iUsuarioApp).consultarSaldo();
 	}
 	
-
-	 
-	
-	@Test
-	public void testIniciarEstaiconamientoOverLoad()
-	{
-		app.setModoAutomatico("abc100");
-		app.iniciarEstacionamiento();
-		
-		verify(iUsuarioApp).iniciarEstacionamiento("abc100", 100);
-	}
 	
 
 	@Test
 	public void testalertarInicioDeEstacionamiento()
-	{
-		assertEquals("Alerta. Recuerde iniciar estacionamiento",app.alertarInicioDeEstacionamiento());
+	{	
+		
+		app.alertaDeInicioDeEstacionamiento();
+		
+		verify(modoApp).alertaDeInicioDeEstacionamiento(app);
 	}
 	
 	@Test
-	public void tesalertarFinalizacionDeEstacionamiento()
-	{
-		assertEquals("Alerta. Recuerde finalizar estacionamiento",app.alertarFinalizacionDeEstacionamiento());
+	public void testalertarFinalizacionDeEstacionamiento()
+	{	
+		
+		app.alertaDeFinDeEstacionamiento();
+		
+		verify(modoApp).alertaDeFinDeEstacionamiento(app);
 	}
 	
 
-	//INTERFACE MOVENTSENSOR???
 	
-	//state
-	/*
+	
+	// luis este lo hice para testear algunos de los que faltaban,
+	//fijate de que mas se puede poner de esos metodos que estan. en 0% 
+		@Test
+		public void testConstructorApp() {
+			int numeroDeCelular = 1566770500;
+			
+			assertEquals(numeroDeCelular,app.getNumeroDeCelular());
+			
+		}
+		@Test
+		public void testDriving() {
+			
+			app.driving();
+			verify(estadoApp).enAuto(app);
+		}
+		@Test
+		public void testWalking() {
+			
+			app.walking();
+			verify(estadoApp).caminando(app);
+		}
+	
+	/**
+	 * esto lo pusimos nada mas para cubrir el coverage porque solo faltaban 
+	 * set ,getter y estos metodos que debian estar pero que no hacen nada
+	 * */
 	@Test
-	public void testAlertaDeInicioDeEstacionamientoEnModoManual()
-	{
-		app.setModoManual();
-		app.driving();
-		app.walking();
+	public void testActivarMoveSensor() {
 		
-		verify(app).alertarInicioDeEstacionamiento();
+		app.activarMoveSensor();
 		
 	}
-	
 	@Test
-	public void testAlertaDeFinDeEstacionamientoEnModoManual()
-	{
-		app.setModoManual();
-		app.walking();
-		app.driving();
+	public void testdesactivarMoveSensor() {
 		
-		
-		
+		app.desactivarMoveSensor();
 		
 	}
-	
-	@Test
-	public void testAlertaDeInicioDeEstacionamientoEnModoAutomatico()
-	{
-		app.setModoAutomatico("abc100");;
-		app.driving();
-		app.walking();
 		
-		assertEquals();
-		
-	}
-	
-	@Test
-	public void testAlertaDeFinDeEstacionamientoEnModoAutomatico()
-	{
-		app.setModoAutomatico("abc100");
-		app.walking();
-		app.driving();
-		
-		verify(app).finalizarEstacionamiento();
-		
-	}
-*/
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import semPrincipal.ISemPrincipal;
 import usuarios.Usuario;
 
-public class SemUsuarios implements IUsuarioSEM{
+public class SemUsuarios implements ISemUsuarios{
 	
 	private List<Usuario> usuarios ;
 	

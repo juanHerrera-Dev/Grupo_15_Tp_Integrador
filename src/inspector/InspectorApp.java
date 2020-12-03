@@ -3,20 +3,23 @@ package inspector;
 import java.time.LocalTime;
 
 import estacionamiento.ISemEstacionamiento;
-import sEM_Multa.IMulta;
+import sEM_Multa.ISemMulta;
+import semPrincipal.ISemPrincipal;
 
 public class InspectorApp {
 	private int idInspector;
 	private int idZonaDeEstacionamiento;
 	private ISemEstacionamiento iestacionamiento;
-	private IMulta imulta;
+	private ISemMulta imulta;
+	private ISemPrincipal semPrincipal;
 	
-	public InspectorApp(int unIdInspector, int unIdZonaDeEstacionamiento, ISemEstacionamiento unaIestacionamiento, IMulta unaIMulta)
+	public InspectorApp(int unIdInspector, int unIdZonaDeEstacionamiento ,ISemPrincipal semPrincipal)
 	{
+		this.semPrincipal= semPrincipal;
 		this.idInspector = unIdInspector;
 		this.idZonaDeEstacionamiento = unIdZonaDeEstacionamiento;
-		this.iestacionamiento = unaIestacionamiento;
-		this.imulta =unaIMulta;
+		this.iestacionamiento = this.semPrincipal.getSemEstacionamiento();
+		this.imulta =this.semPrincipal.getSemMultas();
 	}
 	
 	

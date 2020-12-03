@@ -5,11 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-
+import estacionamiento.ISemEstacionamiento;
 import estacionamiento.SemEstacionamiento;
 import semPrincipal.ISemPrincipal;
 
-public class SemMultas implements IMulta{
+public class SemMultas implements ISemMulta{
 	
 	protected ArrayList<Multa> multas;
 	//private static final SEM_Multa SEM_MULTA;
@@ -126,7 +126,7 @@ public class SemMultas implements IMulta{
 	}
 
 
-	private SemEstacionamiento getSemEstacionamiento() {
+	private ISemEstacionamiento getSemEstacionamiento() {
 		return this.semPrincipal.getSemEstacionamiento();
 	}
 	

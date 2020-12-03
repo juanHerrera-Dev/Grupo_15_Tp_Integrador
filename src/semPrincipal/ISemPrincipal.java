@@ -1,21 +1,26 @@
 package semPrincipal;
 
-import estacionamiento.SemEstacionamiento;
-import sEM_Multa.SemMultas;
-import semAlertas.SemAlertas;
-import semZonas.SemZonasEstacionamiento;
-import sem_usuario.SemUsuarios;
+import estacionamiento.ISemEstacionamiento;
+
+import sEM_Multa.ISemMulta;
+
+import semAlertas.ISemAlertas;
+
+import semZonas.ISemZonaDeEstacionamiento;
+
+import sem_usuario.ISemUsuarios;
+
 
 public interface ISemPrincipal {
 	
-	public SemEstacionamiento getSemEstacionamiento();
+	public ISemEstacionamiento getSemEstacionamiento();
 	
-	public SemZonasEstacionamiento getSemZonas();
+	public ISemZonaDeEstacionamiento getSemZonas();
 	
-	public SemUsuarios getSemUsuarios();
+	public ISemUsuarios getSemUsuarios();
 	
-	public SemAlertas getSemAlertas();
+	public ISemAlertas getSemAlertas();
 	
-	public SemMultas getSemMultas();
+	public ISemMulta getSemMultas();
 	
 }

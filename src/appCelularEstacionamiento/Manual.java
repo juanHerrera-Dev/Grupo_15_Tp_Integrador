@@ -19,5 +19,21 @@ public class Manual extends ModoApp{
 
 
 
+	@Override
+	public String iniciarEstacionamiento(String patente, int idZonaDeEstacionamiento,AppCelularEstacionamiento app) {
+		
+		return app.getUsuario().iniciarEstacionamiento(patente,idZonaDeEstacionamiento);
+	}
+
+
+
+	@Override
+	public String finalizarEstacionamiento(AppCelularEstacionamiento app) {
+		
+		return app.getUsuario().finalizarEstacionamiento();
+	}
+
+
+
 
 }

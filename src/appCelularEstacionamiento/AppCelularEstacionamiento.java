@@ -1,8 +1,11 @@
 package appCelularEstacionamiento;
 
+import semPrincipal.ISemPrincipal;
+import semZonas.ISemZonaDeEstacionamiento;
+
 import sem_usuario.IUsuarioApp;
-import sem_usuario.IUsuarioSEM;
-import sem_usuario.IZonaDeEstacionamiento;
+import sem_usuario.ISemUsuarios;
+
 
 
 public class AppCelularEstacionamiento implements MovementSensor{
@@ -11,8 +14,7 @@ public class AppCelularEstacionamiento implements MovementSensor{
 	private int numeroDeCelular;
 	private String patente;
 	private IUsuarioApp iUsuarioApp;
-	private IUsuarioSEM iUsuarioSEM;
-	private IZonaDeEstacionamiento iZona;
+	private ISemPrincipal semPrincipal;
 	//Tipos de modo: automatico / manual
 	private ModoApp modoApp;
 	//Tipos de estado: APie o EnAuto 
@@ -25,30 +27,41 @@ public class AppCelularEstacionamiento implements MovementSensor{
 	 * @param unIUSuarioSEM
 	 * @param unaIZona
 	 */
-	public AppCelularEstacionamiento(int unNumeroDeCelular, IUsuarioSEM unIUSuarioSEM, IZonaDeEstacionamiento unaIZona)//,IUsuarioApp unUsuario )
+	public AppCelularEstacionamiento(int unNumeroDeCelular, ISemPrincipal semPrincipal,ModoApp modoapp,EstadoApp estadoApp)//,IUsuarioApp unUsuario )
 	{
 		this.numeroDeCelular = unNumeroDeCelular;
-		this.iUsuarioSEM = unIUSuarioSEM;
-		this.iZona = unaIZona;
-		this.modoApp = new Manual();
-		this.estado = new APie();
-		this.iUsuarioApp = this.iUsuarioSEM.getIUsuario(unNumeroDeCelular);
+		this.semPrincipal=semPrincipal;
+		this.modoApp = modoapp;
+		this.estado = estadoApp;
+		this.iUsuarioApp = getSemUsuarios().getIUsuario(unNumeroDeCelular);
+	}
+
+
+	
+
+	private ISemUsuarios getSemUsuarios() {
+		return this.semPrincipal.getSemUsuarios();
 	}
 	
 	
 
 	
-	public String iniciarEstacionamiento(String patente, int idZonaDeEstacionamiento) {
-		
-		return iUsuarioApp.iniciarEstacionamiento(patente, idZonaDeEstacionamiento);
-		
+	public String iniciarEstacionamiento(String patente) {
+		/**
+		 * este mensaje solo puede ser enviado en modo manual por lo que no chequeamos con si esta en estado manual o automatico
+		 * lo que desencadena los estacionamientos en modo automatico son las alertas , y este mensaje seria el de confirmacion
+		 * despues de recibir la alertas.
+		 * 
+		 * */
+		//return iUsuarioApp.iniciarEstacionamiento(patente, idZonaDeEstacionamiento);
+		return modoApp.iniciarEstacionamiento(patente, this.getIdZonaDeEstacionamiento(),this);
 	}
 	
 
 	
 	public String finalizarEstacionamiento() {
 		
-		return iUsuarioApp.finalizarEstacionamiento();	
+		return modoApp.finalizarEstacionamiento(this);
 	}
 	
 	public String consultarSaldo()  
@@ -68,7 +81,7 @@ public class AppCelularEstacionamiento implements MovementSensor{
 		return 100;
 	}
 
- //FALTAN EN EL UML
+
 	
 	public int getNumeroDeCelular()
 	{
@@ -128,7 +141,14 @@ public class AppCelularEstacionamiento implements MovementSensor{
 	
 	public int getIdZonaDeEstacionamiento()
 	{
-		return this.iZona.buscarIdZona(this.consultarCoordenadasAlGPS());
+		return getZonaDeEstacionamiento().buscarIdZona(this.consultarCoordenadasAlGPS());
+	}
+
+
+
+
+	private ISemZonaDeEstacionamiento getZonaDeEstacionamiento() {
+		return this.semPrincipal.getSemZonas();
 	}
 	
 	//El mensaje lo manda el estado  EnAuto
@@ -164,6 +184,14 @@ public class AppCelularEstacionamiento implements MovementSensor{
 	public void activarMoveSensor() {}
 	
 	public void desactivarMoveSensor() {}
+
+
+
+
+	public IUsuarioApp getUsuario() {
+		
+		return this.iUsuarioApp;
+	}
 
 	
 

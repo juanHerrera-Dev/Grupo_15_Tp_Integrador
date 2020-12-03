@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import estacionamiento.Estacionamiento;
 import estacionamiento.SemEstacionamiento;
 import semPrincipal.ISemPrincipal;
-import sem_usuario.IUsuarioSEM;
+import sem_usuario.ISemUsuarios;
 import sem_usuario.SemUsuarios;
 
 import static org.mockito.Mockito.*;

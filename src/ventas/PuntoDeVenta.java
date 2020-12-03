@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import estacionamiento.EstacionamientoPorHoras;
 import estacionamiento.ISemEstacionamiento;
 import semPrincipal.ISemPrincipal;
-import sem_usuario.IUsuarioSEM;
+import sem_usuario.ISemUsuarios;
 
 
 
@@ -19,7 +19,7 @@ public class PuntoDeVenta {
 	private ISemPrincipal semPrincipal;
 	private int id_zona;
 	private ArrayList<Venta> ventas;
-	private IUsuarioSEM semUsuarios;
+	
 	
 	public PuntoDeVenta(int id, String nombre, String dir, ISemPrincipal semPrincipal) {
 		
@@ -46,11 +46,11 @@ public class PuntoDeVenta {
 	}
 
 
-	public IUsuarioSEM getIRecarga() {
+	public ISemUsuarios getIUsuariosSem() {
 		
-		semUsuarios=this.semPrincipal.getSemUsuarios();
+		return this.semPrincipal.getSemUsuarios();
 	
-		return semUsuarios;
+		
 	}
 
 	public ISemEstacionamiento getIEstacionamiento() {
@@ -92,7 +92,7 @@ public class PuntoDeVenta {
 	public void hacerRecarga(int nmrCelular, double montoARecargar) {
 		
 		this.ventas.add(new	VentaRecarga(generarNmrControl(), this.id, LocalDate.now(), LocalTime.now(),nmrCelular,montoARecargar));
-		this.getIRecarga().recargarCredito(nmrCelular,montoARecargar);
+		this.getIUsuariosSem().recargarCredito(nmrCelular,montoARecargar);
 	}
 
 	public ISemPrincipal getSemPrincipal() {

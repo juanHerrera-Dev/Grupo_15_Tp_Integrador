@@ -19,14 +19,14 @@ class TestVentas {
 	 ventaRecarga = new VentaRecarga(12,134,LocalDate.of(2020,9,10),LocalTime.of(12,30),1564958641,130.5);
 	}
 
-	/*@Test
+	@Test
 	void testConstructorVenta() {
 		
-		assertEquals(ventaN.getNmrControl(),12);
-		assertEquals(ventaN.getIdPVenta(),134);
-		assertEquals(ventaN.getFecha(),LocalDate.of(2020,9,10));
-		assertEquals(ventaN.getHora(),LocalTime.of(12,30));
-	}*/
+		assertEquals(ventaPuntual.getNmrControl(),12);
+		assertEquals(ventaPuntual.getIdPVenta(),134);
+		assertEquals(ventaPuntual.getFecha(),LocalDate.of(2020,9,10));
+		assertEquals(ventaPuntual.getHora(),LocalTime.of(12,30));
+	}
 	@Test
 	void testConstructorVentaPuntual() {
 		

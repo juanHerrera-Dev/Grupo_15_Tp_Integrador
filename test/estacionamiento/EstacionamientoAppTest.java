@@ -37,9 +37,16 @@ public class EstacionamientoAppTest {
 	@Test
 	public void establecerHoraDeFinDeEstacionamientoTest() 
 	{
-		LocalTime tiempo = LocalTime.now();
-		estacionamiento.establecerHoraDeFinDeEstacionamiento();
-		assertEquals(tiempo, estacionamiento.getHoraDeFinalizacion());
+		
+		LocalTime horaActual = LocalTime.of(12,00);
+		
+		try(MockedStatic<LocalTime> localTimeMock= Mockito.mockStatic(LocalTime.class, Mockito.CALLS_REAL_METHODS)){
+			localTimeMock.when(LocalTime::now).thenReturn(horaActual);
+			
+			LocalTime tiempo = horaActual;
+			estacionamiento.establecerHoraDeFinDeEstacionamiento();
+			assertEquals(tiempo, estacionamiento.getHoraDeFinalizacion());
+		}
 	}
 	
 	@Test

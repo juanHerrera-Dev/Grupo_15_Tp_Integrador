@@ -193,6 +193,14 @@ public class AppCelularEstacionamiento implements MovementSensor{
 		return this.iUsuarioApp;
 	}
 
+
+
+
+	public EstadoApp getEstado() {
+		
+		return this.estado;
+	}
+
 	
 
 }

@@ -43,7 +43,7 @@ public class SemZonasEstacionamiento implements ISemZonaDeEstacionamiento {
 				existeLaZona=true;
 			}
 		}
-		if(existeLaZona=true) {
+		if(existeLaZona) {
 			return idZona;
 		}
 		else {throw new IllegalArgumentException("no existe zona con ese id");}

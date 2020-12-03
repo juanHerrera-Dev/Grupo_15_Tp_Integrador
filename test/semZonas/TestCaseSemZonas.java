@@ -58,4 +58,18 @@ class TestCaseSemZonas {
 		
 		assertEquals(123,semZonas.buscarIdZona(idZona));
 	}
+	
+	@Test
+	void testLaSemDeZonasCuandoLePidenBuscarUnIdDeZonaQueNoExisteDevuelveUnError() {
+		
+		int idZona=123;
+		
+		when(zonaX.getId()).thenReturn(84);
+		
+		semZonas.registrarZona(zonaX);
+		
+		assertThrows(IllegalArgumentException.class, 
+            	() -> semZonas.buscarIdZona(idZona));
+		
+	}
 }

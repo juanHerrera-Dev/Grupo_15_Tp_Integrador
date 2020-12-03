@@ -127,6 +127,16 @@ class testCaseAppCelular {
 			app.walking();
 			verify(estadoApp).caminando(app);
 		}
+		@Test
+		void testSetEstadoAPieYEnAuto()
+		{	
+			app.setEstadoAPie();
+			assertEquals(APie.class,app.getEstado().getClass());
+			
+			app.setEstadoEnAuto();
+			assertEquals(EnAuto.class,app.getEstado().getClass());
+			
+		}
 	
 	/**
 	 * esto lo pusimos nada mas para cubrir el coverage porque solo faltaban 
